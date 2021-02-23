@@ -41,11 +41,14 @@ target_sources( arm-cmsis_5
     PRIVATE
          $<$<CXX_COMPILER_ID:GNU>: ${CMAKE_CURRENT_LIST_DIR}/Device/ARM/ARMCM4/Source/GCC/startup_ARMCM4.S>
         # $<$<CXX_COMPILER_ID:GNU>: ${CMAKE_CURRENT_LIST_DIR}/Device/ARM/ARMCM4/Source/GCC/gcc_arm.ld>
-) 
-
-target_link_options( arm-cmsis_5  PRIVATE 
-	-L${nRF5_SDK_ROOT}/modules/nrfx/mdk
-	-T${CMAKE_CURRENT_LIST_DIR}/gcc_nrf52.ld
-)
+) #
 
 # TODO: -L{runtime.tools.CMSIS-5.4.0.path}/CMSIS/Lib/GCC/"  -larm_cortexM4lf_math.a
+#target_link_options( arm-cmsis_5  PRIVATE 
+#	-L${nRF5_SDK_ROOT}/modules/nrfx/mdk
+#	-T${CMAKE_CURRENT_LIST_DIR}/gcc_nrf52.ld
+#)
+
+# Alias name
+add_library( arm::cmsis_5 ALIAS arm-cmsis_5 )
+
