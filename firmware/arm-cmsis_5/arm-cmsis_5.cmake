@@ -49,6 +49,11 @@ target_sources( arm-cmsis_5
 #	-T${CMAKE_CURRENT_LIST_DIR}/gcc_nrf52.ld
 #)
 
+target_link_options( arm-cmsis_5  PUBLIC 
+	#-L$<$<CXX_COMPILER_ID:GNU>: ${CMAKE_CURRENT_LIST_DIR}/Device/ARM/ARMCM4/Source/GCC/>
+	-T$<$<CXX_COMPILER_ID:GNU>: ${CMAKE_CURRENT_LIST_DIR}/Device/ARM/ARMCM4/Source/GCC/gcc_arm.ld>
+)
+
 # Alias name
 add_library( arm::cmsis_5 ALIAS arm-cmsis_5 )
 
