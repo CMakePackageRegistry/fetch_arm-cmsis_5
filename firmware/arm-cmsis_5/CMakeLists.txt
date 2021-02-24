@@ -15,9 +15,8 @@ FetchContent_GetProperties(arm-cmsis_5)
 if(NOT arm-cmsis_5_POPULATED)
     FetchContent_Populate(arm-cmsis_5)
 
-    # Inject arm-cmsis_5.cmake to arm-cmsis_5/CMakeLists.txt
-    file(COPY arm-cmsis_5.cmake DESTINATION ${arm-cmsis_5_SOURCE_DIR})
-    file(RENAME ${arm-cmsis_5_SOURCE_DIR}/arm-cmsis_5.cmake ${arm-cmsis_5_SOURCE_DIR}/CMakeLists.txt)
+    # Inject and use samd51-csp.cmake 
+    write_file( ${arm-cmsis_5_SOURCE_DIR}/CMakeLists.txt "include(${CMAKE_CURRENT_LIST_DIR}/arm-cmsis_5.cmake)" )
 
     add_subdirectory(${arm-cmsis_5_SOURCE_DIR} ${arm-cmsis_5_BINARY_DIR})
 endif()
