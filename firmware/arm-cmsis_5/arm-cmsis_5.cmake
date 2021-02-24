@@ -51,7 +51,7 @@ target_sources( arm-cmsis_5
 
 target_link_options( arm-cmsis_5  PUBLIC 
 	#-L$<$<CXX_COMPILER_ID:GNU>: ${CMAKE_CURRENT_SOURCE_DIR}/Device/ARM/ARMCM4/Source/GCC/>
-	-T$<$<CXX_COMPILER_ID:GNU>: ${CMAKE_CURRENT_SOURCE_DIR}/Device/ARM/ARMCM4/Source/GCC/gcc_arm.ld>
+	#-T$<$<CXX_COMPILER_ID:GNU>: ${CMAKE_CURRENT_SOURCE_DIR}/Device/ARM/ARMCM4/Source/GCC/gcc_arm.ld>
 )
 
 # Alias name
