@@ -22,26 +22,26 @@ set_property(CACHE MCURunsFrom PROPERTY STRINGS
     ram
 )
 
-add_library(arm-cmsis_5)
-set_target_properties( arm-cmsis_5 PROPERTIES
-    C_STANDARD 11
-)
+add_library(arm-cmsis_5 INTERFACE)
+#set_target_properties( arm-cmsis_5 PROPERTIES
+ #   C_STANDARD 11
+#)
 
 target_include_directories( arm-cmsis_5
-    PUBLIC
+    INTERFACE
         ${CMAKE_CURRENT_SOURCE_DIR}/CMSIS/Core/Include/
         ${CMAKE_CURRENT_SOURCE_DIR}/CMSIS/CoreValidation/Include/
         ${CMAKE_CURRENT_SOURCE_DIR}/CMSIS/DSP/Include/
         ${CMAKE_CURRENT_SOURCE_DIR}/CMSIS/Driver/Include/
-    PRIVATE
-         $<$<CXX_COMPILER_ID:GNU>: ${CMAKE_CURRENT_SOURCE_DIR}/CMSIS/Lib/GCC/>
+    #PRIVATE
+    #     $<$<CXX_COMPILER_ID:GNU>: ${CMAKE_CURRENT_SOURCE_DIR}/CMSIS/Lib/GCC/>
 )
 
-target_sources( arm-cmsis_5 
-    PRIVATE
-         $<$<CXX_COMPILER_ID:GNU>: ${CMAKE_CURRENT_SOURCE_DIR}/Device/ARM/ARMCM4/Source/GCC/startup_ARMCM4.S>
+#target_sources( arm-cmsis_5 
+  #  PRIVATE
+       #  $<$<CXX_COMPILER_ID:GNU>: ${CMAKE_CURRENT_SOURCE_DIR}/Device/ARM/ARMCM4/Source/GCC/startup_ARMCM4.S>
         # $<$<CXX_COMPILER_ID:GNU>: ${CMAKE_CURRENT_SOURCE_DIR}/Device/ARM/ARMCM4/Source/GCC/gcc_arm.ld>
-) #
+#)
 
 # TODO: -L{runtime.tools.CMSIS-5.4.0.path}/CMSIS/Lib/GCC/"  -larm_cortexM4lf_math.a
 #target_link_options( arm-cmsis_5  PRIVATE 
