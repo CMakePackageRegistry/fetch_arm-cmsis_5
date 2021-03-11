@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 3.15) #FetchContent
 
 # Only supported for target cross-compiled build
-if ( NOT ${CMAKE_CROSSCOMPILING} )
+if ( NOT CMAKE_CROSSCOMPILING )
     return()
 endif()
 
