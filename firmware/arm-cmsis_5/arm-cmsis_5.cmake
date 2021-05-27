@@ -1,5 +1,5 @@
 # This Cmake will be injected into the root folder of FetchCOntent for https://github.com/ARM-software/CMSIS_5
-cmake_minimum_required (VERSION 3.18)
+cmake_minimum_required(VERSION 3.18)
 
 project( arm-cmsis_5 LANGUAGES C ASM)
 
