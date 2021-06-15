@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.18)
 project( arm-cmsis_5 LANGUAGES C ASM)
 
 # MCU can be any of: samd51g19a,samd51j18a,samd51j19a,samd51j20a,samd51n19a,samd51n20a,samd51p19a,samd51p20a
-set(MCU "samd51j19a" CACHE STRING "samd51::csp MCU to build against")
+set(MCU "samd51j19a" CACHE STRING "Microchip MCU to build for")
 set_property(CACHE MCU PROPERTY STRINGS 
     samd51g18a 
     samd51g19a 
