@@ -3,25 +3,6 @@ cmake_minimum_required(VERSION 3.18)
 
 project( arm-cmsis_5 LANGUAGES C ASM)
 
-# MCU can be any of: samd51g19a,samd51j18a,samd51j19a,samd51j20a,samd51n19a,samd51n20a,samd51p19a,samd51p20a
-set(MCU "samd51j19a" CACHE STRING "Microchip MCU to build for")
-set_property(CACHE MCU PROPERTY STRINGS 
-    samd51g18a 
-    samd51g19a 
-    samd51j18a 
-    samd51j19a
-    samd51j20a
-    samd51n19a
-    samd51n20a
-    samd51p19a
-    samd51p20a )
-
-set(MCURunsFrom "flash" CACHE STRING "Atmel Samd51 MCU executes add_compile_definitions from flash or ram")
-set_property(CACHE MCURunsFrom PROPERTY STRINGS 
-    flash 
-    ram
-)
-
 add_library(arm-cmsis_5 INTERFACE)
 #set_target_properties( arm-cmsis_5 PROPERTIES
  #   C_STANDARD 11
