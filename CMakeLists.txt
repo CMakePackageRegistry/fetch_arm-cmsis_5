@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.18) #FetchContent
 
 if ( NOT CMAKE_TOOLCHAIN_FILE )
-    message( FATAL_ERROR "arm-cmsis_5 is intended for cross-compiling Toolchain")
+    message( FATAL_ERROR "FetchContent/arm-cmsis_5 is intended for cross-compiling Toolchain")
 endif()
 
 # Only supported for target cross-compiled build
@@ -38,7 +38,7 @@ endif()
 
 if ( ${CMSISFromSource} )
     CPMAddPackage(
-        arm-cmsis_5
+        fetchcontent_arm-cmsis_5
         GITHUB_REPOSITORY ARM-software/CMSIS_5
         GIT_TAG ${CMSISVersion}
         DOWNLOAD_ONLY TRUE 
@@ -46,23 +46,24 @@ if ( ${CMSISFromSource} )
 else()
     # https://github.com/ARM-software/CMSIS_5/releases/download/5.4.0/ARM.CMSIS.5.4.0.pack"
     CPMAddPackage(
-        NAME arm-cmsis_5
+        NAME fetchcontent_arm-cmsis_5
         URL "https://github.com/ARM-software/CMSIS_5/releases/download/${CMSISVersion}/ARM.CMSIS.${CMSISVersion}.pack"
         URL_HASH SHA256=${Meta_CMSIS_${CMSISVersion}_Hash}
+        VERSION ${CMSISVersion}
         DOWNLOAD_ONLY YES
     )
 endif()
 
-message("arm-cmsis_5_ADDED ${arm-cmsis_5_ADDED}")
+message("fetchcontent_arm-cmsis_5_ADDED ${fetchcontent_arm-cmsis_5_ADDED}")
 
-if(arm-cmsis_5_ADDED)
+if(fetchcontent_arm-cmsis_5_ADDED)
 
-    if ( NOT EXISTS ${arm-cmsis_5_SOURCE_DIR}/CMakeLists.txt )# Inject and use samd51-csp.cmake 
-        write_file( ${arm-cmsis_5_SOURCE_DIR}/CMakeLists.txt "include(${CMAKE_CURRENT_LIST_DIR}/arm-cmsis_5.cmake)" )
+    if ( NOT EXISTS ${fetchcontent_arm-cmsis_5_SOURCE_DIR}/CMakeLists.txt )# Inject and use samd51-csp.cmake 
+        write_file( ${fetchcontent_arm-cmsis_5_SOURCE_DIR}/CMakeLists.txt "include(${CMAKE_CURRENT_LIST_DIR}/arm-cmsis_5.cmake)" )
         if ( ${CMSISFromSource} ) # Exclude from GIT change detection
-            file( APPEND ${arm-cmsis_5_SOURCE_DIR}/.git/info/exclude "/CMakeLists.txt")
+            file( APPEND ${fetchcontent_arm-cmsis_5_SOURCE_DIR}/.git/info/exclude "/CMakeLists.txt")
         endif()
     endif()
 
-    add_subdirectory(${arm-cmsis_5_SOURCE_DIR} ${arm-cmsis_5_BINARY_DIR})
+    add_subdirectory(${fetchcontent_arm-cmsis_5_SOURCE_DIR} ${fetchcontent_arm-cmsis_5_BINARY_DIR})
 endif()
