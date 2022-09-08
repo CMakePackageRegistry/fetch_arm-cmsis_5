@@ -15,10 +15,10 @@ include(CPM)
 # --------
 # Options
 # --------
-set(   CMSISVersion    "5.9.0" CACHE STRING "ARM CMSIS library version")
-option(CMSISFromSource "arm::cmsis_5 fetch from source repository (TBD: Requires extra build steps + incurs CMake Bug-17770)" FALSE )
+set(   CMSIS_Version    "5.9.0" CACHE STRING "ARM CMSIS library version")
+option(CMSIS_FromGitSource "arm::cmsis_5 fetch from source repository (TBD: Requires extra build steps + incurs CMake Bug-17770)" FALSE )
 
-set_property(CACHE CMSISVersion PROPERTY STRINGS 
+set_property(CACHE CMSIS_Version PROPERTY STRINGS 
     5.9.0
     5.7.0
     5.4.0 
@@ -28,28 +28,28 @@ set_property(CACHE CMSISVersion PROPERTY STRINGS
 # Validate Options
 # --------
 # Per version meta data i.e. HASH values
-set( Meta_CMSIS_5.9.0_Hash 14B366F2821EE5D32F0D3BF48EF9657CA45347261D0531263580848E9D36F8F4 )
-set( Meta_CMSIS_5.7.0_Hash DFBEF8FE3EDA38298B3F84B13F403AF66437DE9522B41A65E4E99AEE34ED163A )
-set( Meta_CMSIS_5.4.0_Hash 3356E69292B15A13E30CC5667F640FBD1A5218318C41CC75E2A90F7131295BA5 )
+set( CMSIS_5.9.0_Hash 14B366F2821EE5D32F0D3BF48EF9657CA45347261D0531263580848E9D36F8F4 )
+set( CMSIS_5.7.0_Hash DFBEF8FE3EDA38298B3F84B13F403AF66437DE9522B41A65E4E99AEE34ED163A )
+set( CMSIS_5.4.0_Hash 3356E69292B15A13E30CC5667F640FBD1A5218318C41CC75E2A90F7131295BA5 )
 
-if ( NOT DEFINED Meta_CMSIS_${CMSISVersion}_Hash )
-    message( FATAL_ERROR "[Developer Bug] arm::cmsis_5 version Hash missing for 'Meta_CMSIS_${CMSISVersion}_Hash'")
+if ( NOT DEFINED CMSIS_${CMSIS_Version}_Hash )
+    message( FATAL_ERROR "[Developer Bug] arm::cmsis_5 version Hash missing for 'CMSIS_${CMSIS_Version}_Hash'")
 endif()
 
-if ( ${CMSISFromSource} )
+if ( ${CMSIS_FromGitSource} )
     CPMAddPackage(
         fetchcontent_arm-cmsis_5
         GITHUB_REPOSITORY ARM-software/CMSIS_5
-        GIT_TAG ${CMSISVersion}
+        GIT_TAG ${CMSIS_Version}
         DOWNLOAD_ONLY TRUE 
     )
 else()
     # https://github.com/ARM-software/CMSIS_5/releases/download/5.4.0/ARM.CMSIS.5.4.0.pack"
     CPMAddPackage(
         NAME fetchcontent_arm-cmsis_5
-        URL "https://github.com/ARM-software/CMSIS_5/releases/download/${CMSISVersion}/ARM.CMSIS.${CMSISVersion}.pack"
-        URL_HASH SHA256=${Meta_CMSIS_${CMSISVersion}_Hash}
-        VERSION ${CMSISVersion}
+        URL "https://github.com/ARM-software/CMSIS_5/releases/download/${CMSIS_Version}/ARM.CMSIS.${CMSIS_Version}.pack"
+        URL_HASH SHA256=${CMSIS_${CMSIS_Version}_Hash}
+        VERSION ${CMSIS_Version}
         DOWNLOAD_ONLY YES
     )
 endif()
@@ -60,7 +60,7 @@ if(fetchcontent_arm-cmsis_5_ADDED)
 
     if ( NOT EXISTS ${fetchcontent_arm-cmsis_5_SOURCE_DIR}/CMakeLists.txt )# Inject and use samd51-csp.cmake 
         write_file( ${fetchcontent_arm-cmsis_5_SOURCE_DIR}/CMakeLists.txt "include(${CMAKE_CURRENT_LIST_DIR}/arm-cmsis_5.cmake)" )
-        if ( ${CMSISFromSource} ) # Exclude from GIT change detection
+        if ( ${CMSIS_FromGitSource} ) # Exclude from GIT change detection
             file( APPEND ${fetchcontent_arm-cmsis_5_SOURCE_DIR}/.git/info/exclude "/CMakeLists.txt")
         endif()
     endif()
