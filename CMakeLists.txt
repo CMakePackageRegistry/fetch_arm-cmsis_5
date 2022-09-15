@@ -54,8 +54,6 @@ else()
     )
 endif()
 
-message("arm-cmsis_5_ADDED ${arm-cmsis_5_ADDED}")
-
 if(arm-cmsis_5_ADDED)
 
     if ( NOT EXISTS ${arm-cmsis_5_SOURCE_DIR}/CMakeLists.txt )# Inject and use samd51-csp.cmake 
