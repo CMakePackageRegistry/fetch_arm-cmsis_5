@@ -16,7 +16,7 @@ include(CPM)
 # Options
 # --------
 set(   CMSIS_Version    "5.9.0" CACHE STRING "ARM CMSIS library version")
-option(CMSIS_FromGitSource "arm::cmsis_5 fetch from source repository (TBD: Requires extra build steps + incurs CMake Bug-17770)" FALSE )
+option(CMSIS_FromGitSource "arm::cmsis_5 fetch from source repository" FALSE )
 
 set_property(CACHE CMSIS_Version PROPERTY STRINGS 
     5.9.0
@@ -38,7 +38,7 @@ endif()
 
 if ( ${CMSIS_FromGitSource} )
     CPMAddPackage(
-        fetchcontent_arm-cmsis_5
+        NAME arm-cmsis_5
         GITHUB_REPOSITORY ARM-software/CMSIS_5
         GIT_TAG ${CMSIS_Version}
         DOWNLOAD_ONLY TRUE 
@@ -46,7 +46,7 @@ if ( ${CMSIS_FromGitSource} )
 else()
     # https://github.com/ARM-software/CMSIS_5/releases/download/5.4.0/ARM.CMSIS.5.4.0.pack"
     CPMAddPackage(
-        NAME fetchcontent_arm-cmsis_5
+        NAME arm-cmsis_5
         URL "https://github.com/ARM-software/CMSIS_5/releases/download/${CMSIS_Version}/ARM.CMSIS.${CMSIS_Version}.pack"
         URL_HASH SHA256=${CMSIS_${CMSIS_Version}_Hash}
         VERSION ${CMSIS_Version}
@@ -54,16 +54,16 @@ else()
     )
 endif()
 
-message("fetchcontent_arm-cmsis_5_ADDED ${fetchcontent_arm-cmsis_5_ADDED}")
+message("arm-cmsis_5_ADDED ${arm-cmsis_5_ADDED}")
 
-if(fetchcontent_arm-cmsis_5_ADDED)
+if(arm-cmsis_5_ADDED)
 
-    if ( NOT EXISTS ${fetchcontent_arm-cmsis_5_SOURCE_DIR}/CMakeLists.txt )# Inject and use samd51-csp.cmake 
-        write_file( ${fetchcontent_arm-cmsis_5_SOURCE_DIR}/CMakeLists.txt "include(${CMAKE_CURRENT_LIST_DIR}/arm-cmsis_5.cmake)" )
+    if ( NOT EXISTS ${arm-cmsis_5_SOURCE_DIR}/CMakeLists.txt )# Inject and use samd51-csp.cmake 
+        write_file( ${arm-cmsis_5_SOURCE_DIR}/CMakeLists.txt "include(${CMAKE_CURRENT_LIST_DIR}/arm-cmsis_5.cmake)" )
         if ( ${CMSIS_FromGitSource} ) # Exclude from GIT change detection
-            file( APPEND ${fetchcontent_arm-cmsis_5_SOURCE_DIR}/.git/info/exclude "/CMakeLists.txt")
+            file( APPEND ${arm-cmsis_5_SOURCE_DIR}/.git/info/exclude "/CMakeLists.txt")
         endif()
     endif()
 
-    add_subdirectory(${fetchcontent_arm-cmsis_5_SOURCE_DIR} ${fetchcontent_arm-cmsis_5_BINARY_DIR})
+    add_subdirectory(${arm-cmsis_5_SOURCE_DIR} ${arm-cmsis_5_BINARY_DIR})
 endif()
