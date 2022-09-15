@@ -60,8 +60,11 @@ if(arm-cmsis_5_ADDED)
 
     if ( NOT EXISTS ${arm-cmsis_5_SOURCE_DIR}/CMakeLists.txt )# Inject and use samd51-csp.cmake 
         write_file( ${arm-cmsis_5_SOURCE_DIR}/CMakeLists.txt "include(${CMAKE_CURRENT_LIST_DIR}/arm-cmsis_5.cmake)" )
-        if ( ${CMSIS_FromGitSource} ) # Exclude from GIT change detection
-            file( APPEND ${arm-cmsis_5_SOURCE_DIR}/.git/info/exclude "/CMakeLists.txt")
+        if ( ${CMSIS_FromGitSource} ) # Exclude from GIT change detection        
+            file(STRINGS ${arm-cmsis_5_SOURCE_DIR}/.git/info/exclude excludes)
+            if (NOT "/CMakeLists.txt" IN_LIST excludes) # Add git local exclusion for the generated file
+                file( APPEND ${arm-cmsis_5_SOURCE_DIR}/.git/info/exclude "/CMakeLists.txt\n")
+            endif()
         endif()
     endif()
 
